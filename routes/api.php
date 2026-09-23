@@ -17,6 +17,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/ping', fn () => ['ok' => true]);
+Route::post('/referrals/attach', function (Request $request) {
+    $master = $request->attributes->get('current_master');
+    $code = $request->input('code');
+
+
+    // Логика привязки реферала (вызываем сервис)
+    $result = app(ReferralService::class)->attachReferral($master->id, $code);
+
+
+    return response()->json($result);
+});
 
 // TODO: POST /api/referrals/attach
 // TODO: GET  /api/referrals/my
